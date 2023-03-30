@@ -1,0 +1,18 @@
+create database "DB_Cliente"
+    with
+    owner = postgres
+    encoding = 'UTF8'
+    lc_collate = 'Portuguese_Brazil.1252'
+    lc_ctype = 'Portuguese_Brazil.1252'
+    tablespace = pg_default
+    connection limit = -1
+    is_template = False;
+
+create table Clientes(
+	cod_cliente serial primary key not null,
+	nome_cliente varchar(100) not null,
+	cnpj_cliente varchar(14) unique not null,
+	data_cadastro_cliente date not null,
+	endereco_cliente varchar(150) not null,
+	telefone_cliente varchar(14) not null	
+);
