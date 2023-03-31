@@ -59,19 +59,9 @@ namespace CadastroCliente.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<Cliente>> EditarClientes([FromBody] Cliente clienteModel, int id)
         {
-            clienteModel.CodCliente = id;
-            Cliente cliente;
-            if (clienteModel.CnpjCliente != clienteModel.CnpjCliente)
-            {
-                _clienteServico.ValidarCnpj(clienteModel);
-                cliente = await _clienteServico.EditarClientes(clienteModel, id);
+                clienteModel.CodCliente = id;
+                Cliente cliente = await _clienteServico.EditarClientes(clienteModel, id);
                 return Ok(cliente);
-            }
-            else {
-                cliente = await _clienteServico.EditarClientes(clienteModel, id);
-                return Ok(cliente);
-            }
-            
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult<Cliente>> RemoverCliente(int id)

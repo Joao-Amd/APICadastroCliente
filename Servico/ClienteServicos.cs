@@ -52,6 +52,11 @@ namespace CadastroCliente.Servicos
                 throw new Exception($"Usuário para  o ID: {id} não foi encontrado");
 
             }
+            if (clienteModel.CnpjCliente != cliente.CnpjCliente)
+            {
+                ValidarCnpj(cliente);
+            }
+
             clienteModel.NomeCliente = cliente.NomeCliente;
             clienteModel.CnpjCliente = cliente.CnpjCliente;
             clienteModel.EnderecoCliente = cliente.EnderecoCliente;
@@ -83,12 +88,11 @@ namespace CadastroCliente.Servicos
 
         public void ValidarCnpj(Cliente clienteModel)
         {
-            foreach (Cliente cnpj in _dbContext.Clientes)
+            bool existe = _dbContext.Clientes.Any(x => x.CnpjCliente == clienteModel.CnpjCliente);
+
+            if (existe)
             {
-                if (cnpj.CnpjCliente == clienteModel.CnpjCliente)
-                {
-                    throw new Exception("Cnpj duplicado, por favor insira cnpj diferente");
-                }
+                throw new Exception("Cnpj duplicado, por favor insira cnpj diferente");
             }
         }
     }

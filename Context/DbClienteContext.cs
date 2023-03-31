@@ -22,7 +22,7 @@ namespace CadastroCliente.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Pooling=true;Database=DB_Cliente;User Id=postgres;Password=1234;");
+                optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Pooling=true;Database=DB_Cliente;User Id=postgres;Password=3005;");
             }
         }
 
