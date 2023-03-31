@@ -11,5 +11,6 @@ namespace CadastroCliente.Servicos.Interfaces
         Task<Cliente> InserirClientes(Cliente cliente);
         Task<Cliente> EditarClientes(Cliente cliente, int id);
         Task<bool> RemoverClientes(int id);
+        void ValidarCnpj(Cliente clienteModel);
     }
 }

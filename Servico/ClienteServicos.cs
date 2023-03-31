@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CadastroCliente.Models;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroCliente.Servicos
 {
@@ -32,11 +34,8 @@ namespace CadastroCliente.Servicos
         #region InserirCliente
         public async Task<Cliente> InserirClientes(Cliente cliente)
         {
+
             await _dbContext.Clientes.AddAsync(cliente);
-            if(cliente.CnpjCliente.Equals(cliente.CnpjCliente))
-            {
-                throw new Exception("Cnpj já informado");
-            }
             await _dbContext.SaveChangesAsync();
 
             return cliente;
@@ -46,17 +45,16 @@ namespace CadastroCliente.Servicos
         #region EditarCliente
         public async Task<Cliente> EditarClientes(Cliente cliente, int id)
         {
-            Cliente clienteModel = await ListarClientesPorId(id);
 
+            Cliente clienteModel = await ListarClientesPorId(id);
             if (clienteModel == null)
             {
                 throw new Exception($"Usuário para  o ID: {id} não foi encontrado");
 
             }
-            clienteModel.NomeCliente = cliente.NomeCliente;  
+            clienteModel.NomeCliente = cliente.NomeCliente;
             clienteModel.CnpjCliente = cliente.CnpjCliente;
-            clienteModel.DataCadastroCliente = cliente.DataCadastroCliente;
-            clienteModel.EnderecoCliente = cliente. EnderecoCliente;
+            clienteModel.EnderecoCliente = cliente.EnderecoCliente;
             clienteModel.TelefoneCliente = cliente.TelefoneCliente;
 
             _dbContext.Clientes.Update(clienteModel);
@@ -82,6 +80,19 @@ namespace CadastroCliente.Servicos
             return true;
         }
         #endregion
+
+        public void ValidarCnpj(Cliente clienteModel)
+        {
+            foreach (Cliente cnpj in _dbContext.Clientes)
+            {
+                if (cnpj.CnpjCliente == clienteModel.CnpjCliente)
+                {
+                    throw new Exception("Cnpj duplicado, por favor insira cnpj diferente");
+                }
+            }
+        }
     }
+
 }
+
 
